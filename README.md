@@ -1,4 +1,4 @@
-az-appinsights
+az-sights
 ==========
 
 This is a package can be used to query Azure Application Insights.

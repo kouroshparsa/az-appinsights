@@ -19,7 +19,7 @@ setup(
     author='Kourosh Parsa',
     author_email="kouroshtheking@gmail.com",
     description='This is a package can be used to query Azure Application Insights.',
-    long_description=__doc__,
+    long_description='This is a package can be used to query Azure Application Insights.',
     packages=find_packages(),
     install_requires = [],
     include_package_data=True,
