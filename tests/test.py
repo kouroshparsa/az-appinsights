@@ -13,7 +13,7 @@ class TestInsights(unittest.TestCase):
     SAMPLE_OUTPUT = '{"tables": [{"columns": [{"name": "id"}, {"name": "label"}], "rows": ["a", "b"]}]}'
     @patch('az_sights.check_extensions')
     @patch('az_sights.execute', return_value=(SAMPLE_OUTPUT, '', 0))
-    def test_query_today(self):
+    def test_query_today(self, mock_check_extensions, mock_execute):
         """ tests query_today """
         res = az_sights.query_today('app_id', 'some query')
         self.assertEqual(res, [{'id': 'a'}, {'id': 'b'}])
