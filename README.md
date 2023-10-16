@@ -26,5 +26,8 @@ if __name__ == '__main__':
     res = az_sights.query_today('app_id', 'some query')
 ```
 
+You query must be a valid KQL query like:
+
+```customEvents | where  name == 'click'```
 
 Note that the first time you run this, it will check whether you have the `application-insights` extension installed. If you do not, it will try to install it for you.
