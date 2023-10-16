@@ -24,10 +24,21 @@ import az_sights
 
 if __name__ == '__main__':
     res = az_sights.query_today('app_id', 'some query')
+    res = az_sights.query_this_month('app_id', 'some query')
 ```
 
 You query must be a valid KQL query like:
 
 ```customEvents | where  name == 'click'```
+
+If you want to query in a specific date range:
+```python
+import az_sights
+
+if __name__ == '__main__':
+    start_date = '2012-01-15'
+    end_date = '2012-03-15'
+    res = az_sights.query_app_insights('app_id', 'some query', start_date, end_date)
+```
 
 Note that the first time you run this, it will check whether you have the `application-insights` extension installed. If you do not, it will try to install it for you.
