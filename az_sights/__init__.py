@@ -18,10 +18,10 @@ def execute(cmd):
     """
     returns output, err, returncode
     """
-    ps = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
-                          stderr=subprocess.PIPE, universal_newlines=True)
-    output, err = ps.communicate()
-    return output, err, ps.returncode
+    process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
+                               stderr=subprocess.PIPE, universal_newlines=True)
+    output, err = process.communicate()
+    return output, err, process.returncode
 
 
 def get_extensions():
@@ -62,9 +62,9 @@ def query_today(app_id, query):
     :param query:
     :return: a dictionary
     """
-    t = datetime.now()
-    t = t.strftime("%Y-%M-%d")
-    return query_app_insights(app_id, query, t, t)
+    start_time = datetime.now()
+    date_str = start_time.strftime("%Y-%M-%d")
+    return query_app_insights(app_id, query, date_str, date_str)
 
 
 def query_this_month(app_id, query):
@@ -73,10 +73,10 @@ def query_this_month(app_id, query):
     :param query:
     :return: a dictionary
     """
-    t1 = first_day_of_month()
-    t2 = last_day_of_month()
-    start_time = t1.strftime("%Y-%M-%d")
-    end_time = t2.strftime("%Y-%M-%d")
+    start_time = first_day_of_month()
+    end_time = last_day_of_month()
+    start_time = start_time.strftime("%Y-%M-%d")
+    end_time = end_time.strftime("%Y-%M-%d")
     return query_app_insights(app_id, query, start_time, end_time)
 
 
@@ -102,7 +102,7 @@ def query_app_insights(app_id, query, start_time, end_time):
         res = json.loads(output)
     except Exception:
         raise Exception("Output is not in json format:\n" + output)
-    
+
     try:
         res = convert_azure_table_to_dict(res)
     except Exception:
@@ -111,6 +111,10 @@ def query_app_insights(app_id, query, start_time, end_time):
 
 
 def convert_azure_table_to_dict(data):
+    """
+    :param data: can be a list or dict
+    returns a list or dict depending on the type of the input
+    """
     if isinstance(data, list):
         return data
 
@@ -131,10 +135,16 @@ def convert_azure_table_to_dict(data):
 
 
 def first_day_of_month():
+    """
+    returns a datetime corresponding to the first day of the current month
+    """
     return datetime.now().replace(day=1)
 
 
 def last_day_of_month():
+    """
+    returns a datetime corresponding to the last day of the current month
+    """
     today = datetime.now()
     last_day = calendar.monthrange(today.year, today.month)[1]
     return today.replace(day=last_day)
